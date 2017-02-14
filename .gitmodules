@@ -1,0 +1,3 @@
+[submodule "ceveral-tmlanguage"]
+	path = ceveral-tmlanguage
+	url = https://github.com/ceveral/ceveral-tmlanguage

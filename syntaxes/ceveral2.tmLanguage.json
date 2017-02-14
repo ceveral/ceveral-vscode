@@ -1,0 +1,304 @@
+{
+  "name": "Ceveral",
+  "scopeName": "source.ceveral",
+  "fileTypes": [
+    "cev"
+  ],
+  "uuid": "750ac1f3-b172-48de-b1a4-a3c310c4a293",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#storagetypes"
+    },
+    {
+      "include": "#enum"
+    },
+    {
+      "include": "#message"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#packaging"
+    },
+    {
+      "include": "#service"
+    },
+    {
+      "include": "#annotation"
+    },
+    {
+      "name": "constant.numeric.ceveral",
+      "match": "\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)\\b"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.ceveral",
+          "begin": "/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.double-slash.ceveral",
+          "begin": "//",
+          "end": "$\\n?"
+        }
+      ]
+    },
+    "constants": {
+      "name": "constant.language.ceveral",
+      "match": "\\b(true|false)\\b"
+    },
+    "enum": {
+      "begin": "(enum)(\\s+)([A-Za-z][A-Za-z0-9_]*)(\\s*)(\\{)?",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.source.ceveral"
+        },
+        "3": {
+          "name": "entity.name.class.ceveral"
+        }
+      },
+      "end": "\\}",
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "name": "keyword.source.ceveral",
+          "match": "\\b(to|extensions)\\b"
+        },
+        {
+          "match": "([A-Za-z][A-Za-z0-9_]+)(\\s*)((=)(\\s*)([0-9]*))?;",
+          "captures": {
+            "1": {
+              "name": "constant.other.ceveral"
+            },
+            "4": {
+              "name": "keyword.operator.type.annotation.ceveral"
+            },
+            "6": {
+              "name": "constant.numeric.ceveral"
+            }
+          }
+        }
+      ]
+    },
+    "message": {
+      "begin": "(record)(\\s+)([A-Za-z][A-Za-z0-9_.]*)(\\s*)(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.source.ceveral"
+        },
+        "3": {
+          "name": "entity.name.class.message.ceveral"
+        }
+      },
+      "end": "\\}",
+      "patterns": [
+        {
+          "include": "#annotation"
+        },
+        {
+          "include": "#comments"
+        },
+        {
+          "begin": "([A-Za-z][A-Za-z0-9_]*)(\\s*)(:)(\\s*)",
+          "beginCaptures": {
+            "1": {
+              "name": "variable.object.ceveraltype.ceveral"
+            },
+            "3": {
+              "name": "keyword.operator.type.annotation.ceveral"
+            }
+          },
+          "end": ";",
+          "patterns": [
+            {
+              "match": "([A-Za-z][A-Za-z0-9_]*)",
+              "captures": {
+                "1": {
+                  "name": "entity.name.type.ceveral"
+                }
+              }
+            },
+            {
+              "include": "#storagetypes"
+            },
+            {
+              "match": "(map)<([A-Za-z][A-Za-z0-9_]*),\\s*([A-Za-z][A-Za-z0-9_]*)>\\s+([A-Za-z][A-Za-z0-9_]*)",
+              "captures": {
+                "1": {
+                  "name": "keyword.source.ceveral"
+                },
+                "4": {
+                  "name": "entity.name.class.ceveral"
+                }
+              }
+            },
+            {
+              "begin": "(\\[)",
+              "beginCaptures": {
+                "1": {
+                  "name": "meta.brace.square.ceveral"
+                }
+              },
+              "end": "(\\])",
+              "endCaptures": {
+                "1": {
+                  "name": "meta.brace.square.ceveral"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#storagetypes"
+                },
+                {
+                  "match": "([A-Za-z][A-Za-z0-9_]*)",
+                  "captures": {
+                    "1": {
+                      "name": "entity.name.type.ceveral"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "packaging": {
+      "patterns": [
+        {
+          "match": "(import)(?=(\\s+)([\"]?[./A-Za-z][A-Za-z0-9-_./]*[\"]?)(;))",
+          "captures": {
+            "1": {
+              "name": "keyword.control.ceveral"
+            },
+            "2": {
+              "name": "entity.name.tag"
+            }
+          }
+        },
+        {
+          "match": "(package)(?=(\\s+)([\"]?[A-Za-z][A-Za-z0-9-_./]*[\"]?)(;))",
+          "captures": {
+            "1": {
+              "name": "keyword.control.ceveral"
+            },
+            "2": {
+              "name": "entity.name.tag"
+            }
+          }
+        }
+      ]
+    },
+    "annotation": {
+      "begin": "(@)([a-zA-Z][a-zA-Z0-9_]*)+\\(",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.decorator.ceveral"
+        },
+        "2": {
+          "name": "entity.name.function.ceveral"
+        }
+      },
+      "end": "\\)",
+      "patterns": [
+        {
+          "include": "#json_value"
+        }
+      ]
+    },
+    "service": {
+      "begin": "(service)(\\s+)([A-Za-z][A-Za-z0-9_.]*)(\\s*)(\\{)?",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.source.ceveral"
+        },
+        "3": {
+          "name": "entity.name.class.message.ceveral"
+        }
+      },
+      "end": "\\}",
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "begin": "(rpc)\\s+([A-Za-z][A-Z-a-z0-9_]+)\\s*\\((stream\\s+)?([A-Za-z0-9_]+)\\)\\s+(returns)\\s+\\((stream\\s+)?([A-Za-z0-9_]+)\\)\\{?",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.source.ceveral"
+            },
+            "2": {
+              "name": "entity.name.function"
+            },
+            "3": {
+              "name": "keyword.source.ceveral"
+            },
+            "5": {
+              "name": "keyword.source.ceveral"
+            },
+            "6": {
+              "name": "keyword.source.ceveral"
+            }
+          },
+          "end": "\\}|;",
+          "patterns": [
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#option"
+            }
+          ]
+        }
+      ]
+    },
+    "storagetypes": {
+      "name": "support.type.primitive.ceveral",
+      "match": "\\b(double|float|int32|int64|uint32|uint64|int16|uint16|int8|uint8|boolean|string|bytes|date)\\b"
+    },
+    "strings": {
+      "name": "string.quoted.double.ceveral",
+      "begin": "\"",
+      "end": "\""
+    },
+    "json_value": {
+      "patterns": [
+        {
+          "include": "#json_array"
+        },
+        {
+          "include": "#strings"
+        },
+        {
+          "match": "([0-9]+)",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.ceveral"
+            }
+          }
+        }
+      ]
+    },
+    "json_array": {
+      "begin": "\\[",
+      "patterns": [
+        {
+          "include": "#json_value"
+        }
+      ],
+      "end": "\\]"
+    }
+  }
+}

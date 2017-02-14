@@ -1,0 +1,40 @@
+{
+  "name": "ceveral",
+  "displayName": "Ceveral",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "kildevaeld",
+  "engines": {
+    "vscode": "^1.5.0"
+  },
+  "categories": [
+    "Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "ceveral",
+        "aliases": [
+          "Ceveral",
+          "ceveral"
+        ],
+        "extensions": [
+          ".cev"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ceveral",
+        "scopeName": "source.ceveral",
+        "path": "./syntaxes/ceveral2.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-yaml": "^1.0.1"
+  }
+}
