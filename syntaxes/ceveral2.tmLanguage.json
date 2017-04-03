@@ -77,7 +77,21 @@
           "match": "\\b(to|extensions)\\b"
         },
         {
-          "match": "([A-Za-z][A-Za-z0-9_]+)(\\s*)((=)(\\s*)([0-9]*))?;",
+          "match": "([A-Za-z][A-Za-z0-9_]+)(\\s*)((=)(\\s*)([\"]?[.\/A-Za-z][A-Za-z0-9-_.\/]*[\"]?))(;|\\s+)",
+          "captures": {
+            "1": {
+              "name": "constant.other.ceveral"
+            },
+            "4": {
+              "name": "keyword.operator.type.annotation.ceveral"
+            },
+            "6": {
+              "name": "string.quoted.double.ceveral"
+            }
+          }
+        },
+        {
+          "match": "([A-Za-z][A-Za-z0-9_]+)(\\s*)((=)(\\s*)([0-9]*))?(;|\\s+)",
           "captures": {
             "1": {
               "name": "constant.other.ceveral"
@@ -120,7 +134,7 @@
               "name": "keyword.operator.type.annotation.ceveral"
             }
           },
-          "end": ";",
+          "end": ";|\\s+",
           "patterns": [
             {
               "match": "([A-Za-z][A-Za-z0-9_]*)",
@@ -178,18 +192,24 @@
     "packaging": {
       "patterns": [
         {
-          "match": "(import)(?=(\\s+)([\"]?[./A-Za-z][A-Za-z0-9-_./]*[\"]?)(;))",
+          "match": "(import)(?=(\\s+)([\"]?[.\/A-Za-z][A-Za-z0-9-_.\/]*[\"]?)((\\s+)(as)(\\s+)([a-zA-Z]+))?(;|\\s+))",
           "captures": {
             "1": {
               "name": "keyword.control.ceveral"
             },
-            "2": {
+            "3": {
+              "name": "entity.name.tag"
+            },
+            "6": {
+              "name": "keyword.control.ceveral"
+            },
+            "8":{
               "name": "entity.name.tag"
             }
           }
         },
         {
-          "match": "(package)(?=(\\s+)([\"]?[A-Za-z][A-Za-z0-9-_./]*[\"]?)(;))",
+          "match": "(package)(?=(\\s+)([\"]?[A-Za-z][A-Za-z0-9-_./]*[\"]?)(;|\\s+))",
           "captures": {
             "1": {
               "name": "keyword.control.ceveral"
